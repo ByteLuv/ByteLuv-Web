@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
 import styled from 'styled-components';
 import { Avatar } from 'antd';
 const HomePageContainer = styled.div`
   width: 100%;
-  background: linear(to bottom, blue, white 30%, white 30%)
+  height: 900px;
+  background: linear-gradient(blue, white 30%, white 30%)
 `
 const MainContainer = styled.div`
   display: flex;
