@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Avatar } from 'antd';
+import { Avatar, Badge, Dropdown, Menu } from 'antd';
+import { BellOutlined, UserOutlined } from '@ant-design/icons';
+
 const HomePageContainer = styled.div`
   width: 100%;
   height: 900px;
+  padding: 4px 16px;
   background: linear-gradient(blue, white 30%, white 30%)
 `
 const MainContainer = styled.div`
@@ -21,22 +24,26 @@ const HeaderContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: #000000;
+`
+const HeaderRightContainer = styled.div`
+  display: flex;
 `
 const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 24px;
   position: relative;
-  top: 0;
   left: 0;
+`
+const MessageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
 `
 const AccountContainer = styled.div`
   display: flex;
   align-items: center;
-  position: relative;
-  top: 0;
-  right: 0;
+  margin: 0 20px;
 `
 const Title: React.FC = ()=>{
   return (
@@ -45,28 +52,48 @@ const Title: React.FC = ()=>{
     </TitleContainer>
   )
 }
-const Message: React.FC = ()=>{
+const Message: React.FC = () => {
   return (
-    <div></div>
+    <Dropdown overlay={MessageOverlay} placement="bottomRight">
+      <MessageContainer>
+        <BellOutlined style={{color:"white"}} />
+      </MessageContainer>
+    </Dropdown>
   )
 }
-const Account: React.FC = () =>{
+const MessageOverlay = (
+  <Menu>
+    <Menu.Item>暂无新消息</Menu.Item>
+  </Menu>
+)
+const Account: React.FC = () => {
   return(
-    <AccountContainer>
-      <Message></Message>
-      <Avatar></Avatar>
-    </AccountContainer>
+    <Dropdown overlay={AccountOverlay} placement="bottomRight">
+      <AccountContainer id="account">
+        <Badge dot size="small">   
+          <Avatar shape="square" icon={<UserOutlined />} />
+        </Badge>    
+      </AccountContainer>
+    </Dropdown>
   )
 }
+const AccountOverlay = (
+  <Menu>
+    <Menu.Item>注册</Menu.Item>
+  </Menu>
+)
 const Header: React.FC = ()=>{
   return (
     <HeaderContainer>
       <Title></Title>
-      <Account></Account>
+      <HeaderRightContainer>
+        <Message></Message>
+        <Account></Account>
+      </HeaderRightContainer>  
     </HeaderContainer>
   )
 }
-function App() {
+const HomePage: React.FC = ()=> {
   return (
     <HomePageContainer>
       <Header></Header>
@@ -79,4 +106,4 @@ function App() {
   );
 }
 
-export default App;
+export default HomePage;
