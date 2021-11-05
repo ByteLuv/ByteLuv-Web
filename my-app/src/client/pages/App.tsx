@@ -8,7 +8,8 @@ const HomePageContainer = styled.div`
   width: 100%;
   height: 900px;
   padding: 2% 5%;
-  background: url(${homebg}) center 0 no-repeat;
+  background: url(${homebg}) no-repeat;
+  background-size: 100% 40%;
 `;
 const MainContainer = styled.div`
   display: flex;
@@ -33,6 +34,7 @@ const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 24px;
+  font-weight: bold;
   position: relative;
   left: 0;
 `;
