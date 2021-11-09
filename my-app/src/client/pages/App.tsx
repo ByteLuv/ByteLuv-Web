@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Avatar, Badge, Dropdown, Menu } from "antd";
-import { BellOutlined, UserOutlined } from "@ant-design/icons";
+import {Avatar, Badge, Dropdown, Menu} from "antd";
+import {BellOutlined, UserOutlined} from "@ant-design/icons";
 import homebg from "../../assets/homepage_bg.png";
 
 const HomePageContainer = styled.div`
@@ -55,7 +56,7 @@ const Message: React.FC = () => {
   return (
     <Dropdown overlay={MessageOverlay} placement="bottomRight">
       <MessageContainer>
-        <BellOutlined style={{ color: "white" }} />
+        <BellOutlined style={{color: "white"}}/>
       </MessageContainer>
     </Dropdown>
   );
@@ -67,20 +68,29 @@ const MessageOverlay = (
 );
 const Account: React.FC = () => {
   return (
-    <Dropdown overlay={AccountOverlay} placement="bottomRight">
+    <Dropdown overlay={<AccountOverlay/>} placement="bottomRight">
       <AccountContainer id="account">
         <Badge dot size="small">
-          <Avatar shape="square" icon={<UserOutlined />} />
+          <Avatar shape="square" icon={<UserOutlined/>}/>
         </Badge>
       </AccountContainer>
     </Dropdown>
   );
 };
-const AccountOverlay = (
-  <Menu>
-    <Menu.Item>注册</Menu.Item>
-  </Menu>
-);
+
+const AccountOverlay: React.FC = () => {
+  return (
+    <Menu>
+      <Menu.Item>
+        <Link to="/">注册</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/letter">登录</Link>
+      </Menu.Item>
+    </Menu>
+  );
+};
+
 const Header: React.FC = () => {
   return (
     <HeaderContainer>
