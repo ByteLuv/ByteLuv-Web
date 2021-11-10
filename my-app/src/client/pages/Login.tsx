@@ -52,10 +52,10 @@ const LoginPage: React.FC = () => {
           <Tabs defaultActiveKey="1">
             <TabPane tab={"登录"} key={1}>
               <Form name={"login"} labelCol={{span: 4}}>
-                <Form.Item label={"用户名"} name={"username"}>
+                <Form.Item label={"用户名"} name={"username"} rules={[{required: true, message: "请输入用户名！"}]}>
                   <Input/>
                 </Form.Item>
-                <Form.Item label={"密码"} name={"password"}>
+                <Form.Item label={"密码"} name={"password"} hasFeedback rules={[{required: true, message: "请输入密码！"}]}>
                   <Input.Password/>
                 </Form.Item>
                 <Form.Item wrapperCol={{offset: 4}}>
@@ -64,17 +64,30 @@ const LoginPage: React.FC = () => {
               </Form>
             </TabPane>
             <TabPane tab={"注册"} key={2}>
-              <Form name={"register"} labelCol={{span: 4}}>
-                <Form.Item label={"用户名"} name={"username"}>
+              <Form name={"register"} labelCol={{span: 6}}>
+                <Form.Item label={"用户名"} name={"username"} rules={[{required: true, message: "请输入用户名！"}]}>
                   <Input/>
                 </Form.Item>
-                <Form.Item label={"密码"} name={"password1"}>
+                <Form.Item label={"密码"} name={"password"} hasFeedback rules={[{required: true, message: "请输入密码！"}]}>
                   <Input.Password/>
                 </Form.Item>
-                <Form.Item label={"确认密码"} name={"password2"}>
+                <Form.Item label={"确认密码"} name={"confirm"} hasFeedback
+                           dependencies={["password"]}
+                           rules={[
+                             {required: true, message: "请确认密码！"},
+                             ({ getFieldValue }) => ({
+                               validator(_, value) {
+                                 if(!value || getFieldValue('password') === value) {
+                                   return Promise.resolve();
+                                 } else {
+                                   return Promise.reject(new Error("两次输入的密码不同！"))
+                                 }
+                               }
+                             })
+                           ]}>
                   <Input.Password/>
                 </Form.Item>
-                <Form.Item wrapperCol={{offset: 4}}>
+                <Form.Item wrapperCol={{offset: 6}}>
                   <Button type={"primary"} htmlType={"submit"}>注册</Button>
                 </Form.Item>
               </Form>
