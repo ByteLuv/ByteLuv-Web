@@ -4,6 +4,9 @@ import styled from "styled-components";
 import {Avatar, Badge, Dropdown, Menu} from "antd";
 import {BellOutlined, UserOutlined} from "@ant-design/icons";
 import homebg from "../../assets/homepage_bg.png";
+import LetterCard from "../cards/letter";
+import RecentCard from "../cards/recent";
+import ScheduleCard from "../cards/schedule";
 
 const HomePageContainer = styled.div`
   width: 100%;
@@ -14,14 +17,21 @@ const HomePageContainer = styled.div`
 `;
 const MainContainer = styled.div`
   display: flex;
+  width: 100%;
+  height: 80%;
+  padding: 3% 5%;
 `;
 const LeftContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
+  background-color: grey;
 `;
 const RightContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
+  background-color: green;
 `;
 const HeaderContainer = styled.div`
   width: 100%;
@@ -104,8 +114,13 @@ const HomePage: React.FC = () => {
     <HomePageContainer>
       <Header></Header>
       <MainContainer>
-        <LeftContainer></LeftContainer>
-        <RightContainer></RightContainer>
+        <LeftContainer>
+          <LetterCard></LetterCard>
+          <RecentCard></RecentCard>
+        </LeftContainer>
+        <RightContainer>
+          <ScheduleCard></ScheduleCard>
+        </RightContainer>
       </MainContainer>
     </HomePageContainer>
   );
