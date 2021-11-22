@@ -5,6 +5,8 @@ import HomePage from "./client/pages/App";
 import { LetterPage } from "./client/pages/Letter";
 import "./index.css";
 import LoginPage from "./client/pages/Login";
+import {SchedulePage} from "./client/pages/Schedule"
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -13,6 +15,7 @@ ReactDOM.render(
           <Route path="/home" element={<HomePage/>}/>
           <Route path="/letter" element={<LetterPage/>}/>
           <Route path="/login" element={<LoginPage/>}/>
+          <Route path="/schedule" element={<SchedulePage/>}/>
         </Routes>
     </BrowserRouter>
   </React.StrictMode>,
