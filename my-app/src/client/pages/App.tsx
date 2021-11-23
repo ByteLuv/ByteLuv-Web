@@ -7,6 +7,7 @@ import homebg from "../../assets/homepage_bg.png";
 import LetterCard from "../cards/letter";
 import RecentCard from "../cards/recent";
 import ScheduleCard from "../cards/schedule";
+import CharmCard from "../cards/charm";
 
 const HomePageContainer = styled.div`
   width: 100%;
@@ -120,6 +121,7 @@ const HomePage: React.FC = () => {
         </LeftContainer>
         <RightContainer>
           <ScheduleCard></ScheduleCard>
+          <CharmCard></CharmCard>
         </RightContainer>
       </MainContainer>
     </HomePageContainer>
