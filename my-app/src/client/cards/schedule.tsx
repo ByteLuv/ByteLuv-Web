@@ -13,13 +13,30 @@ const ScheduleCardHeader = styled.div`
 const ScheduleCardContent = styled.div`
 
 `
+
+const PrivateSchedule = styled.div`
+
+`
+
+const MateSchedule = styled.div`
+
+`
+
+const CoupleSchedule = styled.div`
+
+`
+
 const ScheduleCard: React.FC = () => {
     return (
         <ScheduleCardContainer>
             <ScheduleCardHeader>
                 共同日程
             </ScheduleCardHeader>
-            <ScheduleCardContent></ScheduleCardContent>
+            <ScheduleCardContent>
+                <CoupleSchedule></CoupleSchedule>
+                <PrivateSchedule></PrivateSchedule>
+                <MateSchedule></MateSchedule>
+            </ScheduleCardContent>
         </ScheduleCardContainer>
     )
 }

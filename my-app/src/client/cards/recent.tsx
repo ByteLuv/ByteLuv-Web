@@ -3,6 +3,9 @@ import styled from "styled-components";
 const RecentCardContainer = styled.div`
   width: 100%;
   height: 20%;
+  background: red;
+  border-radius: 16px;
+  margin: 8px;
 `
 
 const RecentCardHeader = styled.div`

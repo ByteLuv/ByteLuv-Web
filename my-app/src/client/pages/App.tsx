@@ -26,7 +26,6 @@ const LeftContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  background-color: grey;
 `;
 const RightContainer = styled.div`
   display: flex;
@@ -93,7 +92,7 @@ const AccountOverlay: React.FC = () => {
   return (
     <Menu>
       <Menu.Item>
-        <Link to="/login">登录</Link>
+        <Link to="/login">登录/注册</Link>
       </Menu.Item>
     </Menu>
   );
