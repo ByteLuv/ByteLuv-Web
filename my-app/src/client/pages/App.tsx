@@ -1,127 +1,101 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import styled from "styled-components";
-import {Avatar, Badge, Dropdown, Menu} from "antd";
+import {Avatar, Badge, Button, Dropdown, Menu} from "antd";
 import {BellOutlined, UserOutlined} from "@ant-design/icons";
 import homebg from "../../assets/homepage_bg.png";
 import LetterCard from "../cards/letter";
 import RecentCard from "../cards/recent";
 import ScheduleCard from "../cards/schedule";
 import CharmCard from "../cards/charm";
+import {LetterPage} from "./Letter";
+import HeaderBar from "../Components/HeaderBar";
 
 const HomePageContainer = styled.div`
   width: 100%;
   height: 900px;
   padding: 2% 5%;
   background: url(${homebg}) no-repeat;
-  background-size: 100% 40%;
+  background-size: 100% 30%;
 `;
+
 const MainContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 80%;
+  height: 100%%;
   padding: 3% 5%;
-`;
-const LeftContainer = styled.div`
-  display: flex;
-  flex: 1;
   flex-direction: column;
 `;
-const RightContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  background-color: green;
-`;
-const HeaderContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-const HeaderRightContainer = styled.div`
-  display: flex;
-`;
+
 const TitleContainer = styled.div`
   display: flex;
-  align-items: center;
-  font-size: 24px;
-  font-weight: bold;
-  position: relative;
-  left: 0;
-`;
-const MessageContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 4px;
-`;
-const AccountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 0 20px;
-`;
+  width: 100%;
+  justify-content: center;
+  color: #EBF2F8;
+  font-weight: 700;
+  font-size: 40px;
+  margin: 20px 0;
+`
+
 const Title: React.FC = () => {
-  return <TitleContainer>ByteLuv</TitleContainer>;
-};
-const Message: React.FC = () => {
   return (
-    <Dropdown overlay={MessageOverlay} placement="bottomRight">
-      <MessageContainer>
-        <BellOutlined style={{color: "white"}}/>
-      </MessageContainer>
-    </Dropdown>
-  );
-};
-const MessageOverlay = (
-  <Menu>
-    <Menu.Item>暂无新消息</Menu.Item>
-  </Menu>
-);
-const Account: React.FC = () => {
-  return (
-    <Dropdown overlay={<AccountOverlay/>} placement="bottomRight">
-      <AccountContainer id="account">
-        <Badge dot size="small">
-          <Avatar shape="square" icon={<UserOutlined/>}/>
-        </Badge>
-      </AccountContainer>
-    </Dropdown>
-  );
-};
+    <TitleContainer>免费在线表白情书</TitleContainer>
+  )
+}
 
-const AccountOverlay: React.FC = () => {
-  return (
-    <Menu>
-      <Menu.Item>
-        <Link to="/login">登录/注册</Link>
-      </Menu.Item>
-    </Menu>
-  );
-};
+const IntroContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 18px;
+  color: #F3F5F9;
+  text-align: center;
+`
 
-const Header: React.FC = () => {
+const Intro: React.FC = () => {
   return (
-    <HeaderContainer>
-      <Title></Title>
-      <HeaderRightContainer>
-        <Message></Message>
-        <Account></Account>
-      </HeaderRightContainer>
-    </HeaderContainer>
-  );
-};
+    <IntroContainer>专业强大的整活工具，支持情侣实时在线协作，可用于线上表白、促进沟通、加深感情等各种不同的需求目的</IntroContainer>
+  )
+}
+
+const ToLoginContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin: 50px 0;
+  justify-content: center;
+`
+
+const ToLogin: React.FC = () => {
+  let buttonStyle: React.CSSProperties = {
+    background: "#067BEF",
+    border: "#067BEF",
+    borderRadius: "8px",
+    fontSize: "18px",
+    fontWeight: 500,
+    color: "white",
+    lineHeight: "20px",
+    padding: "14px 40px",
+    height: "auto"
+  }
+  let navigate = useNavigate();
+
+  return (
+    <ToLoginContainer>
+      <Button style={buttonStyle} onClick={() => {
+        navigate("/login");
+      }}>立即使用</Button>
+    </ToLoginContainer>
+  )
+}
+
 const HomePage: React.FC = () => {
   return (
     <HomePageContainer>
-      <Header></Header>
+      <HeaderBar/>
       <MainContainer>
-        <LeftContainer>
-          <LetterCard></LetterCard>
-          <RecentCard></RecentCard>
-        </LeftContainer>
-        <RightContainer>
-          <ScheduleCard></ScheduleCard>
-          <CharmCard></CharmCard>
-        </RightContainer>
+        <Title/>
+        <Intro/>
+        <ToLogin/>
       </MainContainer>
     </HomePageContainer>
   );
