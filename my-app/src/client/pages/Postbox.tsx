@@ -2,14 +2,16 @@ import { AppstoreOutlined, ContainerOutlined, DeleteOutlined, EditOutlined, Mail
 import { Card, Popconfirm, Tabs, message } from "antd"
 import styled from "styled-components"
 
-const EditPageContainer = styled.div`
+const {TabPane} = Tabs;
+
+const PostboxPageContainer = styled.div`
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
 `
 
-const EditPageAsider = styled.div`
+const PostboxPageAsider = styled.div`
     display: flex;
     flex-direction: column;
     
@@ -24,15 +26,19 @@ const NewButton = styled.button`
     margin: 8px 24px;
 `
 
-const EditPageContent = styled.div`
+const PostboxPageContent = styled.div`
 
 `
 
-const {TabPane} = Tabs;
+const TabPaneTitle = styled.div`
+    color: #aaa;
+    font-size: 12px;
+    margin-top: -4px;
+    margin-bottom: 8px;
+`
 
 const PreviewCardsContainer = styled.div`
     display: flex;
-
 `
 
 const PreviewCardContainer = styled.div`
@@ -69,7 +75,6 @@ const PreviewCards: React.FC = () => {
                     >
                         <DeleteOutlined key="delete"/>
                     </Popconfirm>
-                    
                 ]}
             />
         </PreviewCardContainer>
@@ -77,11 +82,11 @@ const PreviewCards: React.FC = () => {
     )
 }
 
-export const EditPage: React.FC = () => {
+export const PostboxPage: React.FC = () => {
     return (
-        <EditPageContainer>
+        <PostboxPageContainer>
             <NewButton>新建</NewButton>
-            <EditPageAsider>
+            <PostboxPageAsider>
                 <Tabs tabPosition="left">
                     <TabPane 
                         tab={
@@ -91,7 +96,7 @@ export const EditPage: React.FC = () => {
                             </span>
                         }
                         key="1">
-                            文件
+                            <TabPaneTitle>文件</TabPaneTitle>
                             <PreviewCards></PreviewCards>
                         </TabPane>
                     <TabPane 
@@ -109,8 +114,8 @@ export const EditPage: React.FC = () => {
                         } 
                         key="3"></TabPane>
                 </Tabs>
-            </EditPageAsider>
-            <EditPageContent></EditPageContent>
-        </EditPageContainer>
+            </PostboxPageAsider>
+            <PostboxPageContent></PostboxPageContent>
+        </PostboxPageContainer>
     )
 }

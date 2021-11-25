@@ -5,8 +5,8 @@ import HomePage from "./client/pages/App";
 import { LetterPage } from "./client/pages/Letter";
 import "./index.css";
 import LoginPage from "./client/pages/Login";
-import {SchedulePage} from "./client/pages/Schedule"
-import { EditPage } from "./client/pages/Edit";
+import { SchedulePage } from "./client/pages/Schedule"
+import { PostboxPage } from "./client/pages/Postbox";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,7 +17,7 @@ ReactDOM.render(
           <Route path="/letter" element={<LetterPage/>}/>
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/schedule" element={<SchedulePage/>}/>
-          <Route path="/edit" element={<EditPage/>}/>
+          <Route path="/postbox" element={<PostboxPage/>}/>
         </Routes>
     </BrowserRouter>
   </React.StrictMode>,
