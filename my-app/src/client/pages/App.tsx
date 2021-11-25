@@ -1,15 +1,10 @@
 import React from "react";
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import {Avatar, Badge, Button, Dropdown, Menu} from "antd";
-import {BellOutlined, UserOutlined} from "@ant-design/icons";
+import { Button } from "antd";
 import homebg from "../../assets/homepage_bg.png";
-import LetterCard from "../cards/letter";
-import RecentCard from "../cards/recent";
-import ScheduleCard from "../cards/schedule";
-import CharmCard from "../cards/charm";
-import {LetterPage} from "./Letter";
-import HeaderBar from "../Components/HeaderBar";
+
+import HeaderBar from "../components/HeaderBar";
 
 const HomePageContainer = styled.div`
   width: 100%;
@@ -22,7 +17,7 @@ const HomePageContainer = styled.div`
 const MainContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%%;
+  height: 100%;
   padding: 3% 5%;
   flex-direction: column;
 `;
