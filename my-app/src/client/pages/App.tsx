@@ -1,11 +1,11 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import {Button, Divider} from "antd";
+import { Button, Divider } from "antd";
 import homebg from "../../assets/homepage_bg.png";
 
-import HeaderBar from "../Components/HeaderBar";
-import {LetterPage} from "./Letter";
+import HeaderBar from "../components/HeaderBar";
+import { LetterPage } from "./Letter";
 
 const HomePageContainer = styled.div`
   width: 100%;
@@ -28,45 +28,45 @@ const HeaderContainer = styled.div`
   padding: 3% 5%;
   background: url(${homebg}) no-repeat;
   background-size: 100% 100%;
-`
+`;
 
 const TitleContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  color: #EBF2F8;
+  color: #ebf2f8;
   font-weight: 700;
   font-size: 40px;
   margin: 20px 0;
-`
+`;
 
 const Title: React.FC = () => {
-  return (
-    <TitleContainer>免费在线表白情书</TitleContainer>
-  )
-}
+  return <TitleContainer>免费在线表白情书</TitleContainer>;
+};
 
 const IntroContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
   font-size: 18px;
-  color: #F3F5F9;
+  color: #f3f5f9;
   text-align: center;
-`
+`;
 
 const Intro: React.FC = () => {
   return (
-    <IntroContainer>专业强大的整活工具，支持情侣实时在线协作，可用于线上表白、促进沟通、加深感情等各种不同的需求目的</IntroContainer>
-  )
-}
+    <IntroContainer>
+      专业强大的整活工具，支持情侣实时在线协作，可用于线上表白、促进沟通、加深感情等各种不同的需求目的
+    </IntroContainer>
+  );
+};
 
 const ToLoginContainer = styled.div`
   display: flex;
   width: 100%;
   margin: 10px 0;
   justify-content: center;
-`
+`;
 
 const ToLogin: React.FC = () => {
   let buttonStyle: React.CSSProperties = {
@@ -78,18 +78,23 @@ const ToLogin: React.FC = () => {
     color: "white",
     lineHeight: "20px",
     padding: "14px 40px",
-    height: "auto"
-  }
+    height: "auto",
+  };
   let navigate = useNavigate();
 
   return (
     <ToLoginContainer>
-      <Button style={buttonStyle} onClick={() => {
-        navigate("/login");
-      }}>立即使用</Button>
+      <Button
+        style={buttonStyle}
+        onClick={() => {
+          navigate("/login");
+        }}
+      >
+        立即使用
+      </Button>
     </ToLoginContainer>
-  )
-}
+  );
+};
 
 const FooterContainer = styled.div`
   display: flex;
@@ -98,7 +103,7 @@ const FooterContainer = styled.div`
   padding: 0 5%;
   flex-direction: column;
   background-color: #212930;
-`
+`;
 
 const FooterTitleContainer = styled.div`
   font-size: 44px;
@@ -106,51 +111,53 @@ const FooterTitleContainer = styled.div`
   color: #ffffff;
   text-align: center;
   padding: 30px 0;
-`
+`;
 
 const FooterTitle: React.FC = () => {
   return (
     <FooterTitleContainer>
       每天有
-      <text style={{color: "#067BEF"}}>10000+</text>
+      <text style={{ color: "#067BEF" }}>10000+</text>
       情书在ByteLuv创建
-      <Divider style={{backgroundColor: "#30393F"}}/>
+      <Divider style={{ backgroundColor: "#30393F" }} />
     </FooterTitleContainer>
-  )
-}
+  );
+};
 
 const FooterContentContainer = styled.div`
   font-size: 12px;
   font-weight: 400;
-  color: #6C7D8F;
+  color: #6c7d8f;
   text-align: center;
   padding-bottom: 20px;
-`
+`;
 
 const FooterContent: React.FC = () => {
   return (
     <FooterContentContainer>
       <p>开发者: 武汉大学ByteLuv团队 ByteLuv v0.0.1</p>
-      <p>武汉大学ByteLuv团队 @2021 京ICP备114514号-1 | 京公网安备 1145141919810号</p>
+      <p>
+        武汉大学ByteLuv团队 @2021 京ICP备114514号-1 | 京公网安备 1145141919810号
+      </p>
     </FooterContentContainer>
-  )
-}
+  );
+};
 
 const HomePage: React.FC = () => {
   return (
     <HomePageContainer>
       <HeaderContainer>
-        <HeaderBar/>
-        <Title/>
-        <Intro/>
+        <HeaderBar />
+        <Title />
+        <Intro />
       </HeaderContainer>
       <MainContainer>
-        <ToLogin/>
-        <LetterPage/>
+        <ToLogin />
+        <LetterPage />
       </MainContainer>
       <FooterContainer>
-        <FooterTitle/>
-        <FooterContent/>
+        <FooterTitle />
+        <FooterContent />
       </FooterContainer>
     </HomePageContainer>
   );

@@ -53,6 +53,9 @@ const FormContainer = styled.div`
 `;
 
 const Form = styled.div`
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
   background: #f7f2ec url(${letterbg});
   position: relative;
   top: 230px;
@@ -76,7 +79,7 @@ export const LetterPage: React.FC = () => {
     <LetterPageContainer>
       <LetterContainer>
         <FormContainer>
-          <Form/>
+          <Form>马上来创建你的专属情书吧</Form>
         </FormContainer>
       </LetterContainer>
     </LetterPageContainer>
