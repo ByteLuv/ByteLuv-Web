@@ -7,6 +7,7 @@ import "./index.css";
 import LoginPage from "./client/pages/Login";
 import { SchedulePage } from "./client/pages/Schedule"
 import { PostboxPage } from "./client/pages/Postbox";
+import { EditPage } from "./client/pages/Edit";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.render(
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/schedule" element={<SchedulePage/>}/>
           <Route path="/postbox" element={<PostboxPage/>}/>
+          <Route path="/editor" element={<EditPage/>}/>
         </Routes>
     </BrowserRouter>
   </React.StrictMode>,
