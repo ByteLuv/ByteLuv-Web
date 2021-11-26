@@ -1,44 +1,52 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import bgout from "../../assets/envelop/bg_out.png";
 import after from "../../assets/envelop/after.png";
 import before from "../../assets/envelop/before.png";
 import letterbg from "../../assets/envelop/letter_bg.png";
 
+const letterWidth = "600px";
+const letterHeight = "520px";
+
 const LetterPageContainer = styled.div`
-  background: #ccc url(${bgout});
   color: #7c7873;
+  height: 580px;
+  overflow: hidden;
 `;
 
 const LetterContainer = styled.div`
-  width: 530px;
-  margin: 20px auto 0;
-  height: 1000px;
+  width: ${letterWidth};
+  margin: 0 auto;
 `;
 
 const FormContainer = styled.div`
   overflow: hidden;
-  height: 446px;
+  height: ${letterHeight};
   position: relative;
-  top: 0px;
+  top: 0;
   transition: all 1s ease-in-out 0.3s;
+
   &:before {
     content: "";
     position: absolute;
-    bottom: 128px;
+    bottom: 190px;
     left: 0;
     background: url(${before});
-    width: 530px;
+    background-size: 100%;
+    width: ${letterWidth};
     height: 316px;
   }
+
   &:after {
     content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     background: url(${after});
-    width: 530px;
-    height: 260px;
+    background-size: 100%;
+    width: ${letterWidth};
+    height: 300px;
   }
+
   &:hover {
     height: 776px;
     top: -200px;
@@ -48,16 +56,17 @@ const FormContainer = styled.div`
 const Form = styled.div`
   background: #f7f2ec url(${letterbg});
   position: relative;
-  top: 200px;
+  top: 230px;
   overflow: hidden;
   height: 200px;
-  width: 400px;
-  margin: 0px auto;
+  width: 500px;
+  margin: 0 auto;
   padding: 20px;
   border: 1px solid #fff;
   border-radius: 3px;
-  box-shadow: 0px 0px 3px #9d9d9d, inset 0px 0px 27px #fff;
+  box-shadow: 0 0 3px #9d9d9d, inset 0 0 27px #fff;
   transition: all 1s ease-in-out 0.3s;
+
   ${FormContainer}:hover & {
     height: 530px;
   }
@@ -68,7 +77,7 @@ export const LetterPage: React.FC = () => {
     <LetterPageContainer>
       <LetterContainer>
         <FormContainer>
-          <Form></Form>
+          <Form/>
         </FormContainer>
       </LetterContainer>
     </LetterPageContainer>
