@@ -1,5 +1,4 @@
-import styled, {keyframes} from "styled-components";
-import bgout from "../../assets/envelop/bg_out.png";
+import styled from "styled-components";
 import after from "../../assets/envelop/after.png";
 import before from "../../assets/envelop/before.png";
 import letterbg from "../../assets/envelop/letter_bg.png";

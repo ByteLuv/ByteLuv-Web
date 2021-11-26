@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import loginbg from "../../assets/login_bg.png"
-import { Tabs, Form, Input, Button } from "antd";
+import {Tabs, Form, Input, Button, message} from "antd";
+import axios from "axios";
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,6 +43,49 @@ const LoginBox = styled.div`
 `
 
 const LoginPage: React.FC = () => {
+  const [loginName, setLoginName] = useState("");
+  const [loginPwd, setLoginPwd] = useState("");
+  const [registerName, setRegisterName] = useState("");
+  const [registerPwd, setRegisterPwd] = useState("");
+
+  const login = () => {
+    axios({
+      url: "login",
+      method: "get",
+      params: {
+        uname: loginName,
+        pwd: loginPwd
+      }
+    }).then(response => {
+      switch (response.data.ErrorCode) {
+        case 0:
+          message.success("登录成功", 1);
+          break;
+        default:
+          message.info(response.data.Descript, 1);
+      }
+    })
+  }
+
+  const register = () => {
+    axios({
+      url: "/signup",
+      method: "post",
+      params: {
+        uname: registerName,
+        password: registerPwd
+      }
+    }).then(response => {
+      switch (response.data.ErrorCode) {
+        case 0:
+          message.success("注册成功", 1);
+          break;
+        default:
+          message.error(response.data.Descript, 1);
+      }
+    })
+  }
+
   return (
     <Wrapper>
       <Container>
@@ -53,31 +97,31 @@ const LoginPage: React.FC = () => {
             <TabPane tab={"登录"} key={1}>
               <Form name={"login"} labelCol={{span: 4}}>
                 <Form.Item label={"用户名"} name={"username"} rules={[{required: true, message: "请输入用户名！"}]}>
-                  <Input/>
+                  <Input value={loginName} onChange={event => setLoginName(event.target.value)}/>
                 </Form.Item>
                 <Form.Item label={"密码"} name={"password"} hasFeedback rules={[{required: true, message: "请输入密码！"}]}>
-                  <Input.Password/>
+                  <Input.Password value={loginPwd} onChange={event => setLoginPwd(event.target.value)}/>
                 </Form.Item>
                 <Form.Item wrapperCol={{offset: 4}}>
-                  <Button type={"primary"} htmlType={"submit"}>立即登录</Button>
+                  <Button type={"primary"} htmlType={"submit"} onClick={login}>立即登录</Button>
                 </Form.Item>
               </Form>
             </TabPane>
             <TabPane tab={"注册"} key={2}>
               <Form name={"register"} labelCol={{span: 6}}>
                 <Form.Item label={"用户名"} name={"username"} rules={[{required: true, message: "请输入用户名！"}]}>
-                  <Input/>
+                  <Input value={registerName} onChange={event => setRegisterName(event.target.value)}/>
                 </Form.Item>
                 <Form.Item label={"密码"} name={"password"} hasFeedback rules={[{required: true, message: "请输入密码！"}]}>
-                  <Input.Password/>
+                  <Input.Password value={registerPwd} onChange={event => setRegisterPwd(event.target.value)}/>
                 </Form.Item>
                 <Form.Item label={"确认密码"} name={"confirm"} hasFeedback
                            dependencies={["password"]}
                            rules={[
                              {required: true, message: "请确认密码！"},
-                             ({ getFieldValue }) => ({
+                             ({getFieldValue}) => ({
                                validator(_, value) {
-                                 if(!value || getFieldValue('password') === value) {
+                                 if (!value || getFieldValue('password') === value) {
                                    return Promise.resolve();
                                  } else {
                                    return Promise.reject(new Error("两次输入的密码不同！"))
@@ -88,7 +132,7 @@ const LoginPage: React.FC = () => {
                   <Input.Password/>
                 </Form.Item>
                 <Form.Item wrapperCol={{offset: 6}}>
-                  <Button type={"primary"} htmlType={"submit"}>注册</Button>
+                  <Button type={"primary"} htmlType={"submit"} onClick={register}>注册</Button>
                 </Form.Item>
               </Form>
             </TabPane>
