@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import moment from "moment";
-import { Badge, Button, Calendar, Drawer, Form, Input, Select } from "antd";
+import {Badge, Button, Calendar, Drawer, Form, Input, Layout, Menu, Select} from "antd";
 import {
   CheckCircleTwoTone,
   DeleteTwoTone,
@@ -8,7 +8,7 @@ import {
   MinusOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {
   AddScheduleDetail,
   DeleteScheduleDetail,
@@ -19,13 +19,19 @@ import {
   ScheduleItemResp,
   ScheduleItemStatusType,
 } from "../../api/schedule";
-import { store } from "../../utils/store";
+import {store} from "../../utils/store";
+import HeaderBar from "../components/HeaderBar";
+
+const {Header, Content, Sider} = Layout;
+
 
 const uid = store.get("uid") ?? 0;
 
 const SchedulePageContainer = styled.div`
   height: 100%;
-  width: 100%;
+  width: 80%;
+  position: absolute;
+  right: 0;
 `;
 
 const ScheduleContainer = styled.div``;
@@ -74,7 +80,7 @@ const AddScheduleHeader = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  weight: 100%;
+  width: 100%;
   padding-bottom: 16px;
 `;
 
@@ -98,9 +104,9 @@ const AddScheduleForm = styled.div`
 `;
 
 const AddSchedule: React.FC<{ date: string; update: () => void }> = ({
-  date,
-  update,
-}) => {
+                                                                       date,
+                                                                       update,
+                                                                     }) => {
   const [visible, setVisible] = useState(false);
   const [ownType, setOwnType] = useState<OWNTYPE>("own");
   const [content, setContent] = useState("");
@@ -122,7 +128,7 @@ const AddSchedule: React.FC<{ date: string; update: () => void }> = ({
           setVisible(!visible);
         }}
       >
-        {visible ? <MinusOutlined /> : <PlusOutlined />}
+        {visible ? <MinusOutlined/> : <PlusOutlined/>}
         <AddScheduleText>{visible ? "放弃添加" : "添加日程"}</AddScheduleText>
       </AddScheduleHeader>
       <AddScheduleContent visible={visible}>
@@ -136,7 +142,7 @@ const AddSchedule: React.FC<{ date: string; update: () => void }> = ({
             </Form.Item>
             <Form.Item
               label="日程内容"
-              rules={[{ required: true, message: "请输入内容！" }]}
+              rules={[{required: true, message: "请输入内容！"}]}
             >
               <Input
                 value={content}
@@ -145,7 +151,7 @@ const AddSchedule: React.FC<{ date: string; update: () => void }> = ({
             </Form.Item>
           </Form>
           <Button
-            style={{ width: "50%", backgroundColor: "#1890ff", color: "white" }}
+            style={{width: "50%", backgroundColor: "#1890ff", color: "white"}}
             onClick={AddScheduleItem}
           >
             添加
@@ -160,7 +166,7 @@ const DrawerItem: React.FC<{
   list: ModifyScheduleItemReq[];
   title: string;
   update: () => void;
-}> = ({ list, title, update }) => {
+}> = ({list, title, update}) => {
   const [editId, setEditId] = useState<number[]>([]);
   const [editContent, setEditContent] = useState<Record<number, string>>({});
   const onClickDelete = async (dateId: number) => {
@@ -232,7 +238,7 @@ const Schedule: React.FC = () => {
   const [chosenDate, setChosenDate] = useState<string>("");
 
   const getMonthData = async () => {
-    const data = await GetMonthScheduleDetail({ date: "2021-11-27", uid });
+    const data = await GetMonthScheduleDetail({date: "2021-11-27", uid});
     setList(data as unknown as ModifyScheduleItemReq[]);
     console.log(data);
   };
@@ -266,7 +272,7 @@ const Schedule: React.FC = () => {
     );
     return (
       <div
-        style={{ height: "100%" }}
+        style={{height: "100%"}}
         onClick={() => {
           setChosenDate(val.format("YYYY-MM-DD"));
           setVisible(true);
@@ -331,7 +337,7 @@ const Schedule: React.FC = () => {
           ) : (
             <DrawerEmpty>
               <DrawerItemTitle>{item.title}</DrawerItemTitle>
-              <div style={{ padding: "16px 0" }}>暂无相关日程</div>
+              <div style={{padding: "16px 0"}}>暂无相关日程</div>
             </DrawerEmpty>
           );
         })}
@@ -342,10 +348,24 @@ const Schedule: React.FC = () => {
 
 export const SchedulePage: React.FC = () => {
   return (
-    <SchedulePageContainer>
-      <ScheduleContainer>
-        <Schedule />
-      </ScheduleContainer>
-    </SchedulePageContainer>
+    <Layout>
+      <Header>
+        <HeaderBar/>
+      </Header>
+      <Layout style={{height: window.innerHeight - 64}}>
+        <Sider width={"20%"} theme={"dark"}>
+          <Menu mode={"inline"} style={{width: "100%"}} defaultSelectedKeys={["schedule"]}>
+            <Menu.Item key={"schedule"}>我的日程表</Menu.Item>
+          </Menu>
+        </Sider>
+        <Content>
+          <SchedulePageContainer>
+            <ScheduleContainer>
+              <Schedule/>
+            </ScheduleContainer>
+          </SchedulePageContainer>
+        </Content>
+      </Layout>
+    </Layout>
   );
 };

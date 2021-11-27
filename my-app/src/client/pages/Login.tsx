@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import loginbg from "../../assets/login_bg.png";
-import { Tabs, Form, Input, Button, message } from "antd";
+import {Tabs, Form, Input, Button, message} from "antd";
 import axios from "axios";
-import { store } from "../../utils/store";
+import {store} from "../../utils/store";
+import {useNavigate} from "react-router-dom";
 
-const { TabPane } = Tabs;
+const {TabPane} = Tabs;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -49,6 +50,8 @@ const LoginPage: React.FC = () => {
   const [registerName, setRegisterName] = useState("");
   const [registerPwd, setRegisterPwd] = useState("");
 
+  const navigate = useNavigate();
+
   const login = () => {
     axios({
       url: "login",
@@ -62,6 +65,7 @@ const LoginPage: React.FC = () => {
         case 0:
           message.success("登录成功", 1);
           store.set("uid", Number(response.data.uid));
+          navigate("/postbox");
           break;
         default:
           message.info(response.data.Descript, 1);
@@ -71,7 +75,7 @@ const LoginPage: React.FC = () => {
 
   const register = () => {
     axios({
-      url: "/signup",
+      url: "signup",
       method: "post",
       params: {
         uname: registerName,
@@ -95,11 +99,11 @@ const LoginPage: React.FC = () => {
         <LoginBox>
           <Tabs defaultActiveKey="1">
             <TabPane tab={"登录"} key={1}>
-              <Form name={"login"} labelCol={{ span: 4 }}>
+              <Form name={"login"} labelCol={{span: 4}}>
                 <Form.Item
                   label={"用户名"}
                   name={"username"}
-                  rules={[{ required: true, message: "请输入用户名！" }]}
+                  rules={[{required: true, message: "请输入用户名！"}]}
                 >
                   <Input
                     value={loginName}
@@ -110,14 +114,14 @@ const LoginPage: React.FC = () => {
                   label={"密码"}
                   name={"password"}
                   hasFeedback
-                  rules={[{ required: true, message: "请输入密码！" }]}
+                  rules={[{required: true, message: "请输入密码！"}]}
                 >
                   <Input.Password
                     value={loginPwd}
                     onChange={(event) => setLoginPwd(event.target.value)}
                   />
                 </Form.Item>
-                <Form.Item wrapperCol={{ offset: 4 }}>
+                <Form.Item wrapperCol={{offset: 4}}>
                   <Button type={"primary"} htmlType={"submit"} onClick={login}>
                     立即登录
                   </Button>
@@ -125,11 +129,11 @@ const LoginPage: React.FC = () => {
               </Form>
             </TabPane>
             <TabPane tab={"注册"} key={2}>
-              <Form name={"register"} labelCol={{ span: 6 }}>
+              <Form name={"register"} labelCol={{span: 6}}>
                 <Form.Item
                   label={"用户名"}
                   name={"username"}
-                  rules={[{ required: true, message: "请输入用户名！" }]}
+                  rules={[{required: true, message: "请输入用户名！"}]}
                 >
                   <Input
                     value={registerName}
@@ -140,7 +144,7 @@ const LoginPage: React.FC = () => {
                   label={"密码"}
                   name={"password"}
                   hasFeedback
-                  rules={[{ required: true, message: "请输入密码！" }]}
+                  rules={[{required: true, message: "请输入密码！"}]}
                 >
                   <Input.Password
                     value={registerPwd}
@@ -153,8 +157,8 @@ const LoginPage: React.FC = () => {
                   hasFeedback
                   dependencies={["password"]}
                   rules={[
-                    { required: true, message: "请确认密码！" },
-                    ({ getFieldValue }) => ({
+                    {required: true, message: "请确认密码！"},
+                    ({getFieldValue}) => ({
                       validator(_, value) {
                         if (!value || getFieldValue("password") === value) {
                           return Promise.resolve();
@@ -167,9 +171,9 @@ const LoginPage: React.FC = () => {
                     }),
                   ]}
                 >
-                  <Input.Password />
+                  <Input.Password/>
                 </Form.Item>
-                <Form.Item wrapperCol={{ offset: 6 }}>
+                <Form.Item wrapperCol={{offset: 6}}>
                   <Button
                     type={"primary"}
                     htmlType={"submit"}

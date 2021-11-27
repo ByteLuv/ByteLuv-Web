@@ -1,11 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
-import { Button, Divider } from "antd";
+import {Button, Divider} from "antd";
 import homebg from "../../assets/homepage_bg.png";
 
 import HeaderBar from "../components/HeaderBar";
-import { LetterPage } from "./Letter";
+import {LetterPage} from "./Letter";
+import {store} from "../../utils/store";
 
 const HomePageContainer = styled.div`
   width: 100%;
@@ -87,7 +88,11 @@ const ToLogin: React.FC = () => {
       <Button
         style={buttonStyle}
         onClick={() => {
-          navigate("/login");
+          if (store.get("uid") != null) {
+            navigate("/postbox")
+          } else {
+            navigate("/login");
+          }
         }}
       >
         立即使用
@@ -117,9 +122,9 @@ const FooterTitle: React.FC = () => {
   return (
     <FooterTitleContainer>
       每天有
-      <text style={{ color: "#067BEF" }}>10000+</text>
+      <text style={{color: "#067BEF"}}>10000+</text>
       情书在ByteLuv创建
-      <Divider style={{ backgroundColor: "#30393F" }} />
+      <Divider style={{backgroundColor: "#30393F"}}/>
     </FooterTitleContainer>
   );
 };
@@ -147,17 +152,17 @@ const HomePage: React.FC = () => {
   return (
     <HomePageContainer>
       <HeaderContainer>
-        <HeaderBar />
-        <Title />
-        <Intro />
+        <HeaderBar/>
+        <Title/>
+        <Intro/>
       </HeaderContainer>
       <MainContainer>
-        <ToLogin />
-        <LetterPage />
+        <ToLogin/>
+        <LetterPage/>
       </MainContainer>
       <FooterContainer>
-        <FooterTitle />
-        <FooterContent />
+        <FooterTitle/>
+        <FooterContent/>
       </FooterContainer>
     </HomePageContainer>
   );

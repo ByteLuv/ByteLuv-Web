@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import {Avatar, Badge, Dropdown, Menu} from "antd";
 import {BellOutlined, UserOutlined} from "@ant-design/icons";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {store} from "../../utils/store";
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -59,11 +60,43 @@ const Message: React.FC = () => {
 };
 
 const AccountOverlay: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Menu>
       <Menu.Item>
-        <Link to="/login">登录/注册</Link>
+        {
+          store.get("uid") == null ? (
+            <Link to="/login">登录/注册</Link>
+          ) : (
+            <Link to="/postbox">个人中心</Link>
+          )
+        }
       </Menu.Item>
+      {
+        store.get("uid") == null ? (
+          <></>
+        ) : (
+          <Menu.Item>
+            <Link to={"/schedule"}>我的日程</Link>
+          </Menu.Item>
+        )
+      }
+      {
+        store.get("uid") == null ? (
+          <></>
+        ) : (
+          <Menu.Item>
+            <div onClick={() => {
+              store.set("uid", null);
+              setTimeout(() => {
+                navigate("/home");
+              }, 500)
+            }}>退出登录
+            </div>
+          </Menu.Item>
+        )
+      }
     </Menu>
   );
 };

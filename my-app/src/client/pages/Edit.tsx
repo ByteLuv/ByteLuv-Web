@@ -9,17 +9,19 @@ import "@idraw/studio/dist/idraw-studio.css";
 import styled from "styled-components";
 import iDraw from "idraw";
 import HeaderBar from "../components/HeaderBar";
-import {Form, Input, InputNumber, Layout, List, Menu, Row, Space, Table} from "antd";
+import {Button, Form, Input, InputNumber, Layout, Menu, message, Space} from "antd";
 import {GeneralList} from "../components/GeneralList";
 import {IconList} from "../components/IconList";
 import Text from "antd/es/typography/Text";
 import {TypeElementBase, TypeElemDesc} from "@idraw/types";
-import {isNullOrUndefined} from "util";
+import {store} from "../../utils/store";
+import axios from "axios";
+import {useLocation} from "react-router-dom";
 
 const {Header, Sider, Content} = Layout;
 const {SubMenu} = Menu;
 
-const {Column, ColumnGroup} = Table;
+const uid = store.get("uid");
 
 const EditPageContainer = styled.div`
   height: 100%;
@@ -133,9 +135,10 @@ const DescriptionMenu: React.FC<{ draw: iDraw }> = ({draw}) => {
 }
 
 export const EditPage: React.FC = () => {
+  const location = useLocation()
+  console.log(location)
+
   const ref: MutableRefObject<any> = useRef(null);
-  const elementRef: MutableRefObject<any> = useRef(null);
-  const descRef: MutableRefObject<any> = useRef(null);
 
   let [drawWidth, setDrawWidth] = useState(800);
   let [drawHeight, setDrawHeight] = useState(800);
@@ -147,8 +150,6 @@ export const EditPage: React.FC = () => {
 
   let [elementList, setElementList] = useState<{ name: string, index: number }[]>();
   let [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-
-  let [description, setDescription] = useState();
 
   // @ts-ignore
   useEffect(() => {
@@ -196,6 +197,27 @@ export const EditPage: React.FC = () => {
     }
   }
 
+  const upload = () => {
+    let uploadData = {
+      uid: uid,
+      width: drawWidth,
+      height: drawHeight,
+      data: draw?.getData().elements
+    };
+
+    axios({
+      url: "addLetterByUid",
+      method: "POST",
+      data: {
+        uid: uid,
+        content: JSON.stringify(uploadData)
+      }
+    }).then(response => {
+        console.log(response);
+      }
+    )
+  }
+
   return (
     <EditPageContainer>
       <Layout>
@@ -203,11 +225,11 @@ export const EditPage: React.FC = () => {
           <HeaderBar/>
         </Header>
         <Layout>
-          <Sider width={"20%"} style={{overflow: "hidden"}}>
-            <Menu mode={"inline"} style={{height: "100%", borderRight: 0}}
+          <Sider width={"20%"} style={{overflow: "hidden"}} theme={"dark"}>
+            <Menu mode={"inline"} style={{borderRight: 0}}
                   defaultOpenKeys={["general", "icon"]}>
               <SubMenu key={"general"} title={"基础图形"}>
-                <Space wrap size={"small"}>
+                <Space wrap size={"small"} style={{marginBottom: 20}}>
                   {
                     GeneralList.map((item, index) => {
                       return <GeneralIcon key={index} icon={item.icon} text={item.name} element={item.element}/>;
@@ -216,7 +238,7 @@ export const EditPage: React.FC = () => {
                 </Space>
               </SubMenu>
               <SubMenu key={"icon"} title={"特殊图形"}>
-                <Space wrap size={"small"}>
+                <Space wrap size={"small"} style={{marginBottom: 20}}>
                   {
                     IconList.map((item, index) => {
                       return <GeneralIcon key={index} icon={item.icon} text={item.name} element={item.element}/>;
@@ -227,7 +249,7 @@ export const EditPage: React.FC = () => {
             </Menu>
           </Sider>
           <Content style={{height: window.innerHeight - 64, width: "60%"}}>
-            <div style={{position: "absolute", right: 0, marginTop: 25, marginRight: "20%", width: 400}}>
+            <div style={{position: "absolute", right: 0, marginTop: 25, marginRight: "20%", width: 450}}>
               <Form layout={"inline"}>
                 <Form.Item label={"Width"}>
                   <InputNumber value={drawWidth} onChange={value => {
@@ -253,6 +275,9 @@ export const EditPage: React.FC = () => {
                     })
                   }} min={200} step={10}/>
                 </Form.Item>
+                <Form.Item>
+                  <Button type={"primary"} onClick={upload}>Upload</Button>
+                </Form.Item>
               </Form>
             </div>
             <div onDragOver={event => event.preventDefault()} onDrop={onDrop} ref={ref}
@@ -273,16 +298,13 @@ export const EditPage: React.FC = () => {
                   })
                 }
               </SubMenu>
-
             </Menu>
             <Menu mode={"inline"} style={{height: "50%", borderRight: 0}}
                   defaultOpenKeys={["description"]}>
               <SubMenu key={"description"} title={"描述"}>
                 {
                   selectedKeys.length != 0 ? (
-                    <DescriptionMenu draw={draw as iDraw}>
-
-                    </DescriptionMenu>
+                    <DescriptionMenu draw={draw as iDraw}/>
                   ) : null
                 }
               </SubMenu>
