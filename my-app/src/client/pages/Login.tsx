@@ -3,6 +3,7 @@ import styled from "styled-components";
 import loginbg from "../../assets/login_bg.png"
 import {Tabs, Form, Input, Button, message} from "antd";
 import axios from "axios";
+import {store} from '../../utils/store';
 
 const {TabPane} = Tabs;
 
@@ -60,6 +61,7 @@ const LoginPage: React.FC = () => {
       switch (response.data.ErrorCode) {
         case 0:
           message.success("登录成功", 1);
+          store.set('uid', response.data.uid);
           break;
         default:
           message.info(response.data.Descript, 1);
