@@ -1,19 +1,14 @@
 import { message } from "antd";
 import axios from "axios";
-import { store } from "../utils/store";
 
 export type ScheduleItemStatusType =
-  | "warning"
-  | "success"
-  | "error"
-  | "processing"
-  | "default";
+  | "Warning"
+  | "Success"
+  | "Error"
+  | "Processing"
+  | "Default";
 
-enum OWNTYPE {
-  "own" = 1,
-  "partner",
-  "together",
-}
+export type OWNTYPE = "own" | "partner" | "together";
 
 export interface ScheduleItemsReq {
   date: string;
@@ -30,15 +25,20 @@ export interface ScheduleItemResp {
 
 interface AddScheduleItemReq extends ScheduleItemResp {}
 
-interface ModifyScheduleItemReq extends ScheduleItemResp {
+export interface ModifyScheduleItemReq extends ScheduleItemResp {
+  id: number;
   dateId: number;
 }
-export const GetScheduleDetail = (payload: ScheduleItemsReq) => {
-  axios({
-    url: "/getScheduleWithUserIdAndDate",
+export const GetMonthScheduleDetail = async (payload: ScheduleItemsReq) => {
+  const res = await axios({
+    url: "/getMonthScheduleWithUserIdAndDate",
     method: "get",
     params: payload,
-  }).then();
+  });
+  if (res.status === 200 && res.data.ErrorCode === 0) {
+    return res.data.Schedule;
+  }
+  return [];
 };
 
 export const AddScheduleDetail = (payload: AddScheduleItemReq) => {
@@ -77,7 +77,7 @@ export const DeleteScheduleDetail = (dateId: number) => {
   axios({
     url: "/deleteScheduleItem",
     method: "post",
-    params: { dateId },
+    params:  {dateId} ,
   }).then((response) => {
     switch (response.data.ErrorCode) {
       case 0:
