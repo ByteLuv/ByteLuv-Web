@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import moment from "moment";
-import { Badge, Calendar, Popover } from "antd";
+import { Badge, Calendar, Drawer } from "antd";
+import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
+import { useState } from "react";
+import { validate } from "@babel/types";
 
 type ScheduleItemStatusType =
   | "warning"
@@ -21,7 +24,71 @@ const SchedulePageContainer = styled.div`
 
 const ScheduleContainer = styled.div``;
 
+const ScheduleDetailItemContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ScheduleDetailButton = styled.div`
+  min-width: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 24px;
+`;
+
+const ScheduleDetailList: React.FC<{ list: ScheduleItem[] }> = ({ list }) => (
+  <>
+    {list.map((item) => (
+      <ScheduleDetailItemContainer>
+        <div>{item.content}</div>
+        <ScheduleDetailButton>
+          <EditTwoTone />
+          <DeleteTwoTone />
+        </ScheduleDetailButton>
+      </ScheduleDetailItemContainer>
+    ))}
+  </>
+);
+
+const DrawerItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const DrawerItemTitle = styled.div``;
+
+const DrawerItemContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const DrawerItem: React.FC<{ list: ScheduleItem[]; title: string }> = ({
+  list,
+  title,
+}) => {
+  return (
+    <DrawerItemContainer>
+      <DrawerItemTitle>{title}</DrawerItemTitle>
+      <DrawerItemContent>
+        {list.map((item) => {
+          return <span>我爱小黄</span>;
+        })}
+      </DrawerItemContent>
+    </DrawerItemContainer>
+  );
+};
+
 const Schedule: React.FC = () => {
+  const [visible, setVisible] = useState(false);
+  const [currentList, setCurrentList] = useState([]);
+
+  const DrawerTypeMap = [
+    { title: "共同日程", list: [] },
+    { title: "ta的日程", list: [] },
+    { title: "你的日程", list: [] },
+  ];
+
   function getListData(val: moment.Moment) {
     let listData: ScheduleItem[] = [];
     switch (val.date()) {
@@ -55,26 +122,16 @@ const Schedule: React.FC = () => {
 
   function dateCellRender(val: moment.Moment) {
     const listData = getListData(val);
-    const tabList = [
-      {
-        key: "tab1",
-        tab: "你的日程",
-      },
-      {
-        key: "tab2",
-        tab: "Ta的日程",
-      },
-      {
-        key: "tab3",
-        tab: "共同日程",
-      },
-    ];
 
-    return listData.map((item: ScheduleItem) => (
-      <div key={item.content}>
-        <Badge status={item.type} text={item.content} />
+    return (
+      <div onClick={() => setVisible(true)}>
+        {listData.map((item: ScheduleItem) => (
+          <div key={item.content}>
+            <Badge status={item.type} text={item.content} />
+          </div>
+        ))}
       </div>
-    ));
+    );
   }
 
   function getMonthData(val: moment.Moment) {
@@ -93,10 +150,22 @@ const Schedule: React.FC = () => {
     ) : null;
   }
   return (
-    <Calendar
-      dateCellRender={dateCellRender}
-      monthCellRender={monthCellRender}
-    ></Calendar>
+    <>
+      <Calendar
+        dateCellRender={dateCellRender}
+        monthCellRender={monthCellRender}
+      ></Calendar>
+      <Drawer
+        onClose={() => setVisible(false)}
+        title="日程详情"
+        visible={visible}
+        placement="right"
+      >
+        {DrawerTypeMap.map((item) => (
+          <DrawerItem title={item.title} list={[]} />
+        ))}
+      </Drawer>
+    </>
   );
 };
 
@@ -104,7 +173,7 @@ export const SchedulePage: React.FC = () => {
   return (
     <SchedulePageContainer>
       <ScheduleContainer>
-        <Schedule></Schedule>
+        <Schedule />
       </ScheduleContainer>
     </SchedulePageContainer>
   );

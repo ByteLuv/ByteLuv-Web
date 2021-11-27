@@ -7,6 +7,11 @@ const EditPageContainer = styled.div`
   height: 100%;
   width: 100%;
 `;
+
+const BackToPostBox = styled.div`
+  
+`
+
 export const EditPage: React.FC = () => {
   return (
       <Studio
@@ -18,5 +23,6 @@ export const EditPage: React.FC = () => {
           data: { elements: [] },
         }}
       ></Studio>
+
   );
 };
