@@ -6,10 +6,15 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import { Card, Popconfirm, Tabs, message } from "antd";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { LuvLetter } from "../../api/postbox";
+import { store } from "../../utils/store";
+import { TypeData } from "@idraw/types";
+import { useNavigate }  from "react-router-dom";
 
 const { TabPane } = Tabs;
-
+const uid = store.get("uid") || 0;
 const PostboxPageContainer = styled.div`
   height: 100%;
   width: 100%;
@@ -49,43 +54,63 @@ const PreviewCardContainer = styled.div`
   width: 20%;
 `;
 
-const PreviewCards: React.FC = () => {
+const PreviewCards: React.FC<{ list: LuvLetter[]; onConfirm: (id: number) => void }> = ({
+  list,
+  onConfirm,
+}) => {
+  const navigator = useNavigate()
   return (
     <PreviewCardsContainer>
-      <PreviewCardContainer>
-        <Card
-          cover={
-            <img
-              alt=""
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+      {list.map((item) => {
+        return (
+          <PreviewCardContainer>
+            <Card
+              onClick={() => navigator("/editor")}
+              actions={[
+                <EditOutlined key="edit" />,
+                <Popconfirm
+                  title="确定要删除这封情书吗"
+                  onConfirm={() => {
+                    onConfirm(item.id);
+                    message.success("已删除");
+                  }}
+                  onCancel={() => {
+                    message.error("已取消");
+                  }}
+                  okText="删除"
+                  cancelText="取消"
+                >
+                  <DeleteOutlined key="delete" />
+                </Popconfirm>,
+              ]}
             />
-          }
-          actions={[
-            <EditOutlined key="edit" />,
-            <Popconfirm
-              title="确定要删除这封情书吗"
-              onConfirm={() => {
-                message.success("删除的情书可以在回收站找到哟");
-              }}
-              onCancel={() => {
-                message.error("已取消");
-              }}
-              okText="删除"
-              cancelText="取消"
-            >
-              <DeleteOutlined key="delete" />
-            </Popconfirm>,
-          ]}
-        />
-      </PreviewCardContainer>
+          </PreviewCardContainer>
+        );
+      })}
     </PreviewCardsContainer>
   );
 };
 
 export const PostboxPage: React.FC = () => {
+  const [list, setList] = useState<LuvLetter[]>([]);
+
+  const onClickNewButton = () => {
+    setList([...list, { uid, name: "undefined", data: {} as TypeData, id: 0 }]);
+    //GetList
+  };
+
+  const onDelete = (id: number) => {
+    setList(list.filter((item) => item.id === id));
+    //GetList
+  };
+
+  useEffect(() => {
+    //GetList
+  });
+
   return (
     <PostboxPageContainer>
-      <NewButton>新建</NewButton>
+      <NewButton onClick={onClickNewButton}>新建情书</NewButton>
       <PostboxPageAsider>
         <Tabs tabPosition="left">
           <TabPane
@@ -98,7 +123,7 @@ export const PostboxPage: React.FC = () => {
             key="1"
           >
             <TabPaneTitle>文件</TabPaneTitle>
-            <PreviewCards></PreviewCards>
+            <PreviewCards list={list} onConfirm={onDelete}></PreviewCards>
           </TabPane>
           <TabPane
             tab={
@@ -113,7 +138,7 @@ export const PostboxPage: React.FC = () => {
             tab={
               <span>
                 <AppstoreOutlined />
-                回收站
+                其他应用
               </span>
             }
             key="3"
