@@ -1,5 +1,5 @@
 export type StoreType = {
-    uid?: string;
+    uid?: number;
 }
 
 class Store {

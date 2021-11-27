@@ -3,14 +3,8 @@ import moment from "moment";
 import { Badge, Calendar, Drawer } from "antd";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { useState } from "react";
-import { validate } from "@babel/types";
+import { ScheduleItemStatusType } from "../../api/schedule";
 
-type ScheduleItemStatusType =
-  | "warning"
-  | "success"
-  | "error"
-  | "processing"
-  | "default";
 
 interface ScheduleItem {
   type: ScheduleItemStatusType;
