@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { LuvLetter } from "../../api/postbox";
 import { store } from "../../utils/store";
 import { TypeData } from "@idraw/types";
-import { useHistory }  from "react-router-dom";
+import { useNavigate }  from "react-router-dom";
 
 const { TabPane } = Tabs;
 const uid = store.get("uid") || 0;
@@ -54,24 +54,24 @@ const PreviewCardContainer = styled.div`
   width: 20%;
 `;
 
-const PreviewCards: React.FC<{ list: LuvLetter[]; onConfirm: () => void }> = ({
+const PreviewCards: React.FC<{ list: LuvLetter[]; onConfirm: (id: number) => void }> = ({
   list,
   onConfirm,
 }) => {
-  let history = useHistory()
+  const navigator = useNavigate()
   return (
     <PreviewCardsContainer>
       {list.map((item) => {
         return (
           <PreviewCardContainer>
             <Card
-              onClick={() => history.push("/editor")}
+              onClick={() => navigator("/editor")}
               actions={[
                 <EditOutlined key="edit" />,
                 <Popconfirm
                   title="确定要删除这封情书吗"
                   onConfirm={() => {
-                    onConfirm();
+                    onConfirm(item.id);
                     message.success("已删除");
                   }}
                   onCancel={() => {
