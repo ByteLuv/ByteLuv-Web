@@ -85,6 +85,7 @@ const LoginPage: React.FC = () => {
       switch (response.data.ErrorCode) {
         case 0:
           message.success("注册成功", 1);
+          window.location.reload();
           break;
         default:
           message.error(response.data.Descript, 1);

@@ -26,10 +26,12 @@ const {Header, Content, Sider} = Layout;
 
 
 const uid = store.get("uid") ?? 0;
+console.log(uid);
+
 
 const SchedulePageContainer = styled.div`
   height: 100%;
-  width: 80%;
+  width: 100%;
   position: absolute;
   right: 0;
 `;
@@ -353,11 +355,6 @@ export const SchedulePage: React.FC = () => {
         <HeaderBar/>
       </Header>
       <Layout style={{height: window.innerHeight - 64}}>
-        <Sider width={"20%"} theme={"dark"}>
-          <Menu mode={"inline"} style={{width: "100%"}} defaultSelectedKeys={["schedule"]}>
-            <Menu.Item key={"schedule"}>我的日程表</Menu.Item>
-          </Menu>
-        </Sider>
         <Content>
           <SchedulePageContainer>
             <ScheduleContainer>

@@ -16,7 +16,7 @@ import Text from "antd/es/typography/Text";
 import {TypeElementBase, TypeElemDesc} from "@idraw/types";
 import {store} from "../../utils/store";
 import axios from "axios";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const {Header, Sider, Content} = Layout;
 const {SubMenu} = Menu;
@@ -136,7 +136,8 @@ const DescriptionMenu: React.FC<{ draw: iDraw }> = ({draw}) => {
 
 export const EditPage: React.FC = () => {
   const location = useLocation()
-  console.log(location)
+  const navigate = useNavigate()
+  let isNew = location.state === null || location.state.data.id == -1;
 
   const ref: MutableRefObject<any> = useRef(null);
 
@@ -172,7 +173,12 @@ export const EditPage: React.FC = () => {
   }, [flag])
 
   useEffect(() => {
-    draw?.setData({elements: []}, {triggerChangeEvent: true});
+    if (isNew) {
+      draw?.setData({elements: []}, {triggerChangeEvent: true});
+    } else {
+      draw?.setData({elements: location.state.data.content.data}, {triggerChangeEvent: true});
+    }
+
     draw?.on("changeData", e => {
       setElementList(e.elements.map((item, index) => {
         return {
@@ -199,23 +205,59 @@ export const EditPage: React.FC = () => {
 
   const upload = () => {
     let uploadData = {
-      uid: uid,
       width: drawWidth,
       height: drawHeight,
       data: draw?.getData().elements
     };
 
-    axios({
-      url: "addLetterByUid",
-      method: "POST",
-      data: {
-        uid: uid,
-        content: JSON.stringify(uploadData)
-      }
-    }).then(response => {
-        console.log(response);
-      }
-    )
+    console.log(uid)
+    if (uid === undefined) {
+      message.info("请先登录", 1);
+      navigate("/login");
+      return;
+    }
+
+    if (isNew) {
+      axios({
+        url: "addLetterByUid",
+        method: "POST",
+        data: {
+          uid: uid,
+          content: JSON.stringify(uploadData)
+        }
+      }).then(response => {
+          switch (response.data.ErrorCode) {
+            case 0:
+              message.success("上传成功", 1);
+              break;
+            default:
+              message.error("上传失败", 1);
+          }
+        }
+      )
+    } else {
+      axios({
+        url: "updateLetterById",
+        method: "post",
+        params: {
+          id: location.state.data.id
+        },
+        data: {
+          uid: uid,
+          content: JSON.stringify(uploadData)
+        }
+      }).then(response => {
+        switch (response.data.ErrorCode) {
+          case 0:
+            message.success("修改成功", 1);
+            break;
+          default:
+            message.error("修改失败", 1);
+        }
+      })
+    }
+
+
   }
 
   return (

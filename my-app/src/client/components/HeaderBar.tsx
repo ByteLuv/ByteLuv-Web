@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Avatar, Badge, Dropdown, Menu} from "antd";
-import {BellOutlined, UserOutlined} from "@ant-design/icons";
+import {BellOutlined, HomeOutlined, UserOutlined} from "@ant-design/icons";
 import {Link, useNavigate} from "react-router-dom";
 import {store} from "../../utils/store";
 
@@ -19,6 +19,8 @@ const MessageContainer = styled.div`
   display: flex;
   align-items: center;
   margin-top: 4px;
+  cursor: pointer;
+  font-size: 20px;
 `;
 
 const AccountContainer = styled.div`
@@ -41,21 +43,13 @@ const Logo: React.FC = () => {
   return <LogoContainer>ByteLuv</LogoContainer>;
 };
 
-const MessageOverlay: React.FC = () => {
-  return (
-    <Menu>
-      <Menu.Item>暂无新消息</Menu.Item>
-    </Menu>
-  );
-}
-
 const Message: React.FC = () => {
+  let navigate = useNavigate();
+
   return (
-    <Dropdown overlay={<MessageOverlay/>} placement="bottomRight">
-      <MessageContainer>
-        <BellOutlined style={{color: "white"}}/>
-      </MessageContainer>
-    </Dropdown>
+    <MessageContainer onClick={() => navigate("/home")}>
+      <HomeOutlined style={{color: "white"}}/>
+    </MessageContainer>
   );
 };
 
