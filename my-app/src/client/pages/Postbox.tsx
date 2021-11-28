@@ -150,7 +150,14 @@ export const PostboxPage: React.FC = () => {
   const onDelete = (id: number) => {
     setList(list.filter((item) => item.id !== id));
     //GetList
-    
+    axios({
+      url: "/deleteLetterById",
+      method: "GET",
+      params: {id: id}
+    }).then(response => {
+      if (response.data.ErrorCode !== 0)
+        message.error("出现了一些小问题", 1);
+    })
   };
 
   useEffect(() => {
@@ -168,7 +175,7 @@ export const PostboxPage: React.FC = () => {
           content: JSON.parse(decodeURI(item.content))
         }
       }))
-      if (response.data.ErrorCode != 0)
+      if (response.data.ErrorCode !== 0)
         message.error("出现了一些小问题", 1);
     })
   }, [flag]);
